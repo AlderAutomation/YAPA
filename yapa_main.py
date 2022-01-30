@@ -10,63 +10,69 @@ LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
 logging.basicConfig(filename="log.log", level=logging.DEBUG, format = LOG_FORMAT)
 logger = logging.getLogger()
 
-api_key = config.key
-api_secret = config.secret
-epoch_time = int(time.time())
 
-data_to_hash = api_key + api_secret + str(epoch_time)
-sha_1 = hashlib.sha1(data_to_hash.encode()).hexdigest()
+class yapa_main():
 
-headers = {
-    'X-Auth-Date': str(epoch_time),
-    'X-Auth-Key': api_key,
-    'Authorization': sha_1,
-    'User-Agent': 'postcasting-index-python-cli'    
-}
+    def __init__(self) -> None:
+        
+        api_key = config.key
+        api_secret = config.secret
+        epoch_time = int(time.time())
 
-coder_radio_id = 487548
-base_url = "https://api.podcastindex.org/api/1.0"
+        data_to_hash = api_key + api_secret + str(epoch_time)
+        sha_1 = hashlib.sha1(data_to_hash.encode()).hexdigest()
 
-def find_cast(query: str):
-    url = base_url + "/search/byterm?q=" + query
+        self.headers = {
+            'X-Auth-Date': str(epoch_time),
+            'X-Auth-Key': api_key,
+            'Authorization': sha_1,
+            'User-Agent': 'postcasting-index-python-cli'    
+        }
 
-    r = requests.post(url, headers=headers)
-
-    if r.status_code == 200:
-        print ('<< Received >>')
-        pretty_json = json.loads(r.text)
-        logger.info(json.dumps(pretty_json, indent=2))
-        print (json.dumps(pretty_json, indent=2))
-    else:
-        print ('<< Received ' + str(r.status_code) + '>>')
+        self.coder_radio_id = 487548
+        self.base_url = "https://api.podcastindex.org/api/1.0"
 
 
-def get_episodes(feed_id:int):
-    url = base_url + "/episodes/byfeedid?id=" + str(feed_id)
+    def find_cast(self, query: str):
+        url = self.base_url + "/search/byterm?q=" + query
 
-    r = requests.post(url, headers=headers)
+        r = requests.post(url, headers=self.headers)
 
-    if r.status_code == 200:
-        print ('<< Received >>')
-        pretty_json = json.loads(r.text)
-        logger.info(json.dumps(pretty_json, indent=2))
-        print (json.dumps(pretty_json, indent=2))
-    else:
-        print ('<< Received ' + str(r.status_code) + '>>')
- 
-
-
-def subscribe_to_cast():
-    pass
+        if r.status_code == 200:
+            print ('<< Received >>')
+            pretty_json = json.loads(r.text)
+            logger.info(json.dumps(pretty_json, indent=2))
+            print (json.dumps(pretty_json, indent=2))
+        else:
+            print ('<< Received ' + str(r.status_code) + '>>')
 
 
-def play_cast():
-    pass
+    def get_episodes(self):
+        url = self.base_url + "/episodes/byfeedid?id=" + str(self.coder_radio_id)
+
+        r = requests.post(url, headers=self.headers)
+
+        if r.status_code == 200:
+            print ('<< Received >>')
+            pretty_json = json.loads(r.text)
+            logger.info(json.dumps(pretty_json, indent=2))
+            print (json.dumps(pretty_json, indent=2))
+        else:
+            print ('<< Received ' + str(r.status_code) + '>>')
+    
+
+
+    def subscribe_to_cast(self):
+        pass
+
+
+    def play_cast(self):
+        pass
 
 
 def main():
     # find_cast("coder radio")
-    get_episodes(coder_radio_id)
+    yapa_main().get_episodes()
 
 
 if __name__ == "__main__":
