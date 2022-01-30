@@ -4,6 +4,11 @@ import requests
 import time 
 import hashlib
 import json
+import logging
+
+LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
+logging.basicConfig(filename="log.log", level=logging.DEBUG, format = LOG_FORMAT)
+logger = logging.getLogger()
 
 api_key = config.key
 api_secret = config.secret
@@ -19,6 +24,8 @@ headers = {
     'User-Agent': 'postcasting-index-python-cli'    
 }
 
+coder_radio_id = 487548
+
 
 def find_cast(query: str):
     url = "https://api.podcastindex.org/api/1.0/search/byterm?q="+query
@@ -28,9 +35,14 @@ def find_cast(query: str):
     if r.status_code == 200:
         print ('<< Received >>')
         pretty_json = json.loads(r.text)
+        logger.info(pretty_json)
         print (json.dumps(pretty_json, indent=2))
     else:
         print ('<< Received ' + str(r.status_code) + '>>')
+
+
+def get_episodes():
+    pass
 
 
 def subscribe_to_cast():
@@ -43,7 +55,7 @@ def play_cast():
 
 def main():
     find_cast("coder radio")
-
+    # get_episodes()
 
 
 if __name__ == "__main__":
