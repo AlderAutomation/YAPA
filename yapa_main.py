@@ -25,24 +25,35 @@ headers = {
 }
 
 coder_radio_id = 487548
-
+base_url = "https://api.podcastindex.org/api/1.0"
 
 def find_cast(query: str):
-    url = "https://api.podcastindex.org/api/1.0/search/byterm?q="+query
+    url = base_url + "/search/byterm?q=" + query
 
     r = requests.post(url, headers=headers)
 
     if r.status_code == 200:
         print ('<< Received >>')
         pretty_json = json.loads(r.text)
-        logger.info(pretty_json)
+        logger.info(json.dumps(pretty_json, indent=2))
         print (json.dumps(pretty_json, indent=2))
     else:
         print ('<< Received ' + str(r.status_code) + '>>')
 
 
-def get_episodes():
-    pass
+def get_episodes(feed_id:int):
+    url = base_url + "/episodes/byfeedid?id=" + str(feed_id)
+
+    r = requests.post(url, headers=headers)
+
+    if r.status_code == 200:
+        print ('<< Received >>')
+        pretty_json = json.loads(r.text)
+        logger.info(json.dumps(pretty_json, indent=2))
+        print (json.dumps(pretty_json, indent=2))
+    else:
+        print ('<< Received ' + str(r.status_code) + '>>')
+ 
 
 
 def subscribe_to_cast():
@@ -54,8 +65,8 @@ def play_cast():
 
 
 def main():
-    find_cast("coder radio")
-    # get_episodes()
+    # find_cast("coder radio")
+    get_episodes(coder_radio_id)
 
 
 if __name__ == "__main__":
