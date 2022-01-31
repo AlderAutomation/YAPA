@@ -10,8 +10,7 @@ LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
 logging.basicConfig(filename="log.log", level=logging.DEBUG, format = LOG_FORMAT)
 logger = logging.getLogger()
 
-
-class yapa_main():
+class rss_manipulator():
 
     def __init__(self) -> None:
         
@@ -30,6 +29,7 @@ class yapa_main():
         }
 
         self.coder_radio_id = 487548
+        self.talk_python_id = 742305
         self.base_url = "https://api.podcastindex.org/api/1.0"
 
 
@@ -48,7 +48,7 @@ class yapa_main():
 
 
     def get_episodes(self):
-        url = self.base_url + "/episodes/byfeedid?id=" + str(self.coder_radio_id)
+        url = self.base_url + "/episodes/byfeedid?id=" + str(self.talk_python_id)
 
         r = requests.post(url, headers=self.headers)
 
@@ -71,8 +71,8 @@ class yapa_main():
 
 
 def main():
-    # find_cast("coder radio")
-    yapa_main().get_episodes()
+    # rss_manipulator().find_cast("talk python")
+    rss_manipulator().get_episodes()
 
 
 if __name__ == "__main__":
