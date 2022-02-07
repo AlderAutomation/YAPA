@@ -41,6 +41,7 @@ class rss_manipulator():
         if r.status_code == 200:
             print ('<< Received >>')
             pretty_json = json.loads(r.text)
+            # print (pretty_json["feeds"])
             logger.info(json.dumps(pretty_json, indent=2))
             print (json.dumps(pretty_json, indent=2))
         else:

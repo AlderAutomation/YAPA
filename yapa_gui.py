@@ -1,4 +1,5 @@
 import gi
+from itsdangerous import json
 import yapa_main
 
 gi.require_version("Gtk", "3.0")
@@ -24,9 +25,11 @@ class main_window(Gtk.Window):
         self.search_box.pack_start(self.search_button, True, True, 0)
 
 
-    def on_search_clicked(self, search_button):
+    def on_search_clicked(self, search_button) -> json:
         output = self.search_input.get_text()
-        yapa_main.rss_manipulator().find_cast(output)
+        json_data = yapa_main.rss_manipulator().find_cast(output)
+
+        return json_data
         
 
 def main():
