@@ -1,43 +1,73 @@
-import gi
+import sys
+from PyQt5.QtWidgets import *
 from itsdangerous import json
 import yapa_main
 
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
-
-class main_window(Gtk.Window):
-
+class main_window(QWidget):
     def __init__(self) -> None:
-        Gtk.Window.__init__(self, title="Yet Another Podcast App")
+        super().__init__()
 
-        self.search_box = Gtk.Box(spacing=6)
-        self.add(self.search_box)
+        self.initUI()
 
-        self.search_label = Gtk.Label()
-        self.search_label.set_text("Search for Podcast")
-        self.search_box.pack_start(self.search_label, True, True, 0)
 
-        self.search_input = Gtk.Entry()
-        self.search_box.pack_start(self.search_input, True, True, 0)
+    def initUI(self):      
+        self.search_label = QLabel("Search for Podcast")
+
+        self.search_input = QLineEdit()
         
-        self.search_button = Gtk.Button.new_with_label("Search!")
-        self.search_button.connect("clicked", self.on_search_clicked)
-        self.search_box.pack_start(self.search_button, True, True, 0)
+        self.search_button = QPushButton("Search!")
+        self.search_button.clicked.connect(self.on_search_clicked)
+
+        self.search_results_list = QListWidget()
+        # TODO self.search_results_list.itemClicked(self.list_item_clicked)
+
+        self.main_layout = QGridLayout(self)
+        self.main_layout.addWidget(self.search_label, 0, 0)
+        self.main_layout.addWidget(self.search_input, 0, 1)
+        self.main_layout.addWidget(self.search_button, 0, 2)
+        self.main_layout.addWidget(self.search_results_list, 1, 0, 1, 3)
 
 
-    def on_search_clicked(self, search_button) -> json:
-        output = self.search_input.get_text()
+
+        self.setGeometry(0,0,600,400)
+        self.setWindowTitle("YAPAr")
+        # self.setWindowIcon(QIcon(''))
+        self.show()
+
+
+    def list_item_clicked(self):
+        pass
+
+
+    def on_search_clicked(self, search_button) -> None:
+        output = self.search_input.text()
+
         json_data = yapa_main.rss_manipulator().find_cast(output)
 
-        return json_data
-        
+        i = 0
+
+        for element in json_data['feeds']:
+            for key, value in element.items():
+                if key == 'title':
+                    self.search_results_list.insertItem(i, value)
+                    self.search_results_list.repaint()
+                    i += 1 
+
+
+                # if key == 'id':
+                #     id_num = value
+                # if key == 'title':
+                #     title = value
+                # if key == 'description':
+                #     desc = value
+                # if key == 'enclosureUrl':
+                #     enclosureurl = value
+
 
 def main():
-    window = main_window()
-    window.connect("delete-event", Gtk.main_quit)
-    window.show_all()
-    Gtk.main()
-
+    app = QApplication(sys.argv)
+    ex = main_window()
+    sys.exit(app.exec_())
 
 if __name__=="__main__":
     main()

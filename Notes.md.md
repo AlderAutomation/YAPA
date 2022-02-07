@@ -20,3 +20,12 @@ for element in pretty_json['items']:
 			print(key, ':', value)
 
 I'm betting there is a better way of doing this. prolly can put the first for loop to a variable and then loop from that. 
+
+### QT Designer
+
+install via 
+sudo apt install qttools5-dev-tools
+sudo apt install qttools5-dev
+
+start via 
+designer

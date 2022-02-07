@@ -33,7 +33,7 @@ class rss_manipulator():
         self.base_url = "https://api.podcastindex.org/api/1.0"
 
 
-    def find_cast(self, query: str):
+    def find_cast(self, query: str) -> json:
         url = self.base_url + "/search/byterm?q=" + query
 
         r = requests.post(url, headers=self.headers)
@@ -41,14 +41,14 @@ class rss_manipulator():
         if r.status_code == 200:
             print ('<< Received >>')
             pretty_json = json.loads(r.text)
-            # print (pretty_json["feeds"])
             logger.info(json.dumps(pretty_json, indent=2))
-            print (json.dumps(pretty_json, indent=2))
+            # print (json.dumps(pretty_json, indent=2))
+            return pretty_json
         else:
             print ('<< Received ' + str(r.status_code) + '>>')
 
 
-    def get_episodes(self):
+    def get_episodes(self) -> json:
         url = self.base_url + "/episodes/byfeedid?id=" + str(self.talk_python_id)
 
         r = requests.post(url, headers=self.headers)
@@ -58,17 +58,7 @@ class rss_manipulator():
             pretty_json = json.loads(r.text)
             logger.info(json.dumps(pretty_json, indent=2))
             # print (json.dumps(pretty_json, indent=2))
-            for element in pretty_json['items']:
-                for key, value in element.items():
-                    if key == 'id':
-                        id_num = value
-                    if key == 'title':
-                        title = value
-                    if key == 'description':
-                        desc = value
-                    if key == 'enclosureUrl':
-                        enclosureurl = value
-                    
+            return pretty_json                    
         else:
             print ('<< Received ' + str(r.status_code) + '>>')
     
@@ -83,9 +73,8 @@ class rss_manipulator():
 
 
 def main():
-    # rss_manipulator().find_cast("talk python")
-
-    rss_manipulator().get_episodes()
+    rss_manipulator().find_cast("talk python")
+    # rss_manipulator().get_episodes()
 
 
 if __name__ == "__main__":
