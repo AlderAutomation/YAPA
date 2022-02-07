@@ -57,7 +57,18 @@ class rss_manipulator():
             print ('<< Received >>')
             pretty_json = json.loads(r.text)
             logger.info(json.dumps(pretty_json, indent=2))
-            print (json.dumps(pretty_json, indent=2))
+            # print (json.dumps(pretty_json, indent=2))
+            for element in pretty_json['items']:
+                for key, value in element.items():
+                    if key == 'id':
+                        id_num = value
+                    if key == 'title':
+                        title = value
+                    if key == 'description':
+                        desc = value
+                    if key == 'enclosureUrl':
+                        enclosureurl = value
+                    
         else:
             print ('<< Received ' + str(r.status_code) + '>>')
     
@@ -73,6 +84,7 @@ class rss_manipulator():
 
 def main():
     # rss_manipulator().find_cast("talk python")
+
     rss_manipulator().get_episodes()
 
 
