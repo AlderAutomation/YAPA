@@ -29,3 +29,8 @@ sudo apt install qttools5-dev
 
 start via 
 designer
+
+
+### Audio Player
+
+Use pygame mixer. nice easy solution. doesnt help with video though. maybe we dont do video, id be ok with that

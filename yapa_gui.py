@@ -54,16 +54,6 @@ class main_window(QWidget):
                     i += 1 
 
 
-                # if key == 'id':
-                #     id_num = value
-                # if key == 'title':
-                #     title = value
-                # if key == 'description':
-                #     desc = value
-                # if key == 'enclosureUrl':
-                #     enclosureurl = value
-
-
 def main():
     app = QApplication(sys.argv)
     ex = main_window()
