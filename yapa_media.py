@@ -1,7 +1,6 @@
 import pygame
 from time import sleep
 
-song_file = "/home/matthew/Share/Code/Python/yapa/Downloads/test.wav"
 
 class yapa_media_player():
     def __init__(self) -> None:
@@ -17,8 +16,24 @@ class yapa_media_player():
         pygame.mixer.music.stop()
 
 
+    def pause():
+        pass
+
+
+    def forward():
+        pass
+
+
+    def back():
+        pass
+
+
+    def convert_mp3_to_wav():
+        pass
+
+
 def main():
-    yapa_media_player().play(song_file)
+    yapa_media_player().play("./Downloads/test.wav")
     sleep(10)
 
 
