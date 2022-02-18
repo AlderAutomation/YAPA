@@ -23,7 +23,7 @@ class main_window(QWidget):
 
         self.search_results_list = QListWidget()
         self.search_results_list.setAlternatingRowColors(True)
-        self.search_results_list.itemClicked.connect(self.list_item_clicked)
+        self.search_results_list.itemClicked.connect(self.cast_item_clicked)
 
         self.episodes = QListWidget()
         self.episodes.setAlternatingRowColors(True)
@@ -35,16 +35,28 @@ class main_window(QWidget):
         self.main_layout.addWidget(self.search_results_list, 1, 0, 1, 2)
         self.main_layout.addWidget(self.episodes, 1, 2, 1, 2)
 
-
         self.setGeometry(0,0,600,400)
         self.setWindowTitle("YAPA")
         self.setWindowIcon(QtGui.QIcon(logo))
         self.show()
 
 
-    def list_item_clicked(self, item):
-        print(item.value )
+    def cast_item_clicked(self, item):
+        json_data = yapa_main.rss_manipulator().find_cast(item.text())
 
+        id_val = json_data['feeds'][0]['id']
+
+        feed_data = yapa_main.rss_manipulator().get_episodes(id_val)
+
+        i = 0 
+        for element in feed_data['items']:
+            for key, value in element.items():
+                if key == 'title':
+                    title = value
+
+                    self.episodes.addItem(title)
+                    self.episodes.repaint()
+                    i += 1 
 
 
     def on_search_clicked(self, search_button) -> None:
@@ -57,7 +69,9 @@ class main_window(QWidget):
         for element in json_data['feeds']:
             for key, value in element.items():
                 if key == 'title':
-                    self.search_results_list.insertItem(i, value)
+                    title = value
+
+                    self.search_results_list.addItem(title)
                     self.search_results_list.repaint()
                     i += 1 
 
@@ -65,7 +79,7 @@ class main_window(QWidget):
 def main():
     app = QApplication(sys.argv)
     ex = main_window()
-    sys.exit(app.exec_())
+    sys.exit(app.exec_())   
 
 if __name__=="__main__":
     main()
