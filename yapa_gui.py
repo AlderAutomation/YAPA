@@ -42,6 +42,8 @@ class main_window(QWidget):
 
 
     def cast_item_clicked(self, item):
+        self.episodes.clear()
+        
         json_data = yapa_main.rss_manipulator().find_cast(item.text())
 
         id_val = json_data['feeds'][0]['id']
