@@ -42,7 +42,7 @@ class rss_manipulator():
 
             return json_data
         else:
-            print ('<< Received ' + str(r.status_code) + '>>')
+            print ('<< Received ' + str(response.status_code) + '>>')
 
 
     def get_episodes(self, id_val) -> json:
@@ -54,7 +54,7 @@ class rss_manipulator():
             print ('<< Received >>')
             pretty_json = json.loads(r.text)
             logger.info(json.dumps(pretty_json, indent=2))
-            # print (json.dumps(pretty_json, indent=2))
+            print (json.dumps(pretty_json, indent=2))
             return pretty_json                    
         else:
             print ('<< Received ' + str(r.status_code) + '>>')

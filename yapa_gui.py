@@ -1,7 +1,8 @@
+from mailcap import findmatch
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5 import QtGui
-from itsdangerous import json
+from PyQt5 import uic
 import yapa_main
 
 logo = "/home/matthew/Share/Code/Python/yapa/Static/Images/temp_logo.png"
@@ -13,31 +14,17 @@ class main_window(QWidget):
         self.initUI()
 
 
-    def initUI(self):      
-        self.search_label = QLabel("Search for Podcast")
+    def initUI(self):  
+        uic.loadUi("main.ui", self)
 
-        self.search_input = QLineEdit()
-        
-        self.search_button = QPushButton("Search!")
+        self.search_input = self.findChild(QLineEdit, "search_input")
+        self.search_button = self.findChild(QPushButton, "search_button")
+        self.podcast_search_results_list = self.findChild(QListWidget, "podcast_search_results_list")
+        self.episodes = self.findChild(QListWidget, "episode_list")
+
         self.search_button.clicked.connect(self.on_search_clicked)
+        self.podcast_search_results_list.itemClicked.connect(self.cast_item_clicked)
 
-        self.search_results_list = QListWidget()
-        self.search_results_list.setAlternatingRowColors(True)
-        self.search_results_list.itemClicked.connect(self.cast_item_clicked)
-
-        self.episodes = QListWidget()
-        self.episodes.setAlternatingRowColors(True)
-
-        self.main_layout = QGridLayout(self)
-        self.main_layout.addWidget(self.search_label, 0, 0)
-        self.main_layout.addWidget(self.search_input, 0, 1)
-        self.main_layout.addWidget(self.search_button, 0, 2)
-        self.main_layout.addWidget(self.search_results_list, 1, 0, 1, 2)
-        self.main_layout.addWidget(self.episodes, 1, 2, 1, 2)
-
-        self.setGeometry(0,0,600,400)
-        self.setWindowTitle("YAPA")
-        self.setWindowIcon(QtGui.QIcon(logo))
         self.show()
 
 
@@ -73,8 +60,8 @@ class main_window(QWidget):
                 if key == 'title':
                     title = value
 
-                    self.search_results_list.addItem(title)
-                    self.search_results_list.repaint()
+                    self.podcast_search_results_list.addItem(title)
+                    self.podcast_search_results_list.repaint()
                     i += 1 
 
 
