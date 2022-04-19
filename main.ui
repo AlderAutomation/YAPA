@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1127</width>
+    <width>760</width>
     <height>670</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>10</x>
      <y>50</y>
-     <width>181</width>
+     <width>281</width>
      <height>611</height>
     </rect>
    </property>
@@ -42,7 +42,7 @@
   <widget class="QListWidget" name="episode_list">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>310</x>
      <y>50</y>
      <width>441</width>
      <height>611</height>

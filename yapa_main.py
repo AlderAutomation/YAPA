@@ -36,7 +36,6 @@ class rss_manipulator():
         response = requests.post(url, headers=self.headers)
 
         if response.status_code == 200:
-            print ('<< Received >>')
             json_data = json.loads(response.text)
             logger.info(json.dumps(json_data, indent=2))
 

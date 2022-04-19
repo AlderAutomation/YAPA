@@ -49,6 +49,7 @@ class main_window(QWidget):
 
 
     def on_search_clicked(self, search_button) -> None:
+        self.podcast_search_results_list.clear()
         output = self.search_input.text()
 
         json_data = yapa_main.rss_manipulator().find_cast(output)
