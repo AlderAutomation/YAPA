@@ -31,7 +31,7 @@ class main_window(QWidget):
     def cast_item_clicked(self, item):
         self.episodes.clear()
         
-        json_data = yapa_main.rss_manipulator().find_cast(item.text())
+        json_data = yapa_main.rss_manipulator().find_cast(item.text().split("\n")[0])
 
         id_val = json_data['feeds'][0]['id']
 
@@ -56,11 +56,15 @@ class main_window(QWidget):
         i = 0
 
         for element in json_data['feeds']:
+            title = ""
+            description = ""
             for key, value in element.items():
                 if key == 'title':
                     title = value
+                if key == 'description':
+                    description = value
 
-                    self.podcast_search_results_list.addItem(title)
+                    self.podcast_search_results_list.addItem(title + "\n" + description)
                     self.podcast_search_results_list.repaint()
                     i += 1 
 

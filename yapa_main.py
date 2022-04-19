@@ -6,7 +6,7 @@ import json
 import logging
 
 LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
-logging.basicConfig(filename="log.log", level=logging.DEBUG, format = LOG_FORMAT)
+logging.basicConfig(filename="log.log", level=logging.INFO, format = LOG_FORMAT)
 logger = logging.getLogger()
 
 class rss_manipulator():
